@@ -3,9 +3,9 @@
 $regex = [];
 
 $regex['special'] = '(?:' .
-# 1F3F3 FE0F 200D 1F308 ; rainbow flag
+    # 1F3F3 FE0F 200D 1F308 ; rainbow flag
     '\x{1F3F3}' . '\x{FE0F}?' . '\x{200D}?' . '\x{1F308}' . '|' .
-# 1F441 FE0F 200D 1F5E8 FE0F ; eye in speech bubble
+    # 1F441 FE0F 200D 1F5E8 FE0F ; eye in speech bubble
     '\x{1F441}' . '\x{FE0F}?' . '\x{200D}?' . '\x{1F5E8}' . '\x{FE0F}?' . # Black Flag
     ')';
 
@@ -33,11 +33,12 @@ $regex['gendered_roles_with_objects'] = '(?:' .
     '\x{1F692}' .
     '\x{1F33E}-\x{1F3ED}' .
     ']' .
+    '\x{FE0F}?' .
     ')';
 
 $regex['unicode_10'] = '[\x{1F468}-\x{1F469}\x{1F9D0}-\x{1F9DF}][\x{1F3FA}-\x{1F3FF}]?\x{200D}?[\x{2640}\x{2642}\x{2695}\x{2696}\x{2708}]?\x{FE0F}?';
 
-$regex['families'] = '(?:' .
+/*$regex['families'] = '(?:' .
     '[\x{2764}\x{1F466}-\x{1F469}\x{1F48B}]' .
     '[\x{200D}\x{FE0F}]{0,2}' .
     ')' .
@@ -47,7 +48,21 @@ $regex['families'] = '(?:' .
     '(?:' .
     '[\x{2764}\x{1F466}-\x{1F469}\x{1F48B}]' .
     '\x{FE0F}?' .
-    '){2,4}';
+    '){2,4}';*/
+
+//removed {1,3} (replaced with a |) and removed {2,4} based on comment in this issue: https://github.com/emojione/emojione/issues/497
+// -this allowed for matching multiple red hearts (without space in between)
+$regex['families'] = '(?:' .
+    '[\x{2764}\x{1F466}-\x{1F469}\x{1F48B}]' .
+    '[\x{200D}\x{FE0F}]{0,2}' .
+    ')' .
+    '|' .
+    '[\x{2764}\x{1F466}-\x{1F469}\x{1F48B}]' .
+    '|' .
+    '(?:' .
+    '[\x{2764}\x{1F466}-\x{1F469}\x{1F48B}]' .
+    '\x{FE0F}?' .
+    ')';
 
 $regex['gendered_gestures'] = '(?:' .
     '[\x{1f46e}\x{1F468}\x{1F469}\x{1f575}\x{1f471}-\x{1f487}\x{1F645}-\x{1F64E}\x{1F926}\x{1F937}]' . '|' .
@@ -136,9 +151,9 @@ $regex['emoticons'] = '[\x{1F000}-\x{1F6FF}\x{1F900}-\x{1F9FF}]' . '\x{FE0F}?';
 $regex['symbols'] = '[\x{2600}-\x{26ff}]' . '\x{FE0F}?';
 
 
-foreach ($regex AS $key => $val) {
+/*foreach ($regex AS $key => $val) {
     print '# ' . $key . "\n" . $val . "\n\n\n";
-}
+}*/
 
 $regex = $regex['special'] . '|' .
     $regex['keycaps'] . '|' .
