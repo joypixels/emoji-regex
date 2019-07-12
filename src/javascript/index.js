@@ -1,5 +1,7 @@
 var rainbow_flag = /\u{1F3F3}\u{FE0F}?\u{200D}?\u{1F308}/u;
 
+var pirate_flag = /\u{1F3F4}\u{200D}?\u{2620}\u{FE0F}?/u;
+
 var black_flag = /\u{1F441}\u{FE0F}?\u{200D}?\u{1F5E8}\u{FE0F}?/u;
 
 var keycaps = /[\u{0023}-\u{0039}]\u{FE0F}?\u{20e3}/u;
@@ -9,6 +11,8 @@ var flags = /(?:\u{1F3F4}[\u{E0060}-\u{E00FF}]{1,6})|[\u{1F1E0}-\u{1F1FF}]{2}/u;
 var gendered_roles_with_objects = /(?:[\u{1F468}\u{1F469}])\u{FE0F}?[\u{1F3FA}-\u{1F3FF}]?\u{200D}?[\u{2695}\u{2696}\u{2708}\u{1F4BB}\u{1F4BC}\u{1F527}\u{1F52C}\u{1F680}\u{1F692}\u{1F33E}-\u{1F3ED}]/u;
 
 var unicode_10 = /[\u{1F468}-\u{1F469}\u{1F9D0}-\u{1F9DF}][\u{1F3FA}-\u{1F3FF}]?\u{200D}?[\u2640\u2642\u2695\u2696\u2708]?\u{FE0F}?/u;
+
+var super_people = /(?:[\u{1F9B8}-\u{1F9B9}][\u{1F3FB}-\u{1F3FF}]?[\u{200D}]?[\u{2640}-\u{2642}?]\u{FE0F}?)/u;
 
 //var families = /(?:[\u{2764}\u{1F466}-\u{1F469}\u{1F48B}][\u{200D}\u{FE0F}]{0,2}){1,3}[\u{2764}\u{1F466}-\u{1F469}\u{1F48B}]|(?:[\u{2764}\u{1F466}-\u{1F469}\u{1F48B}]\u{FE0F}?){2,4}/u;
 var families = /(?:[\u{2764}\u{1F466}-\u{1F469}\u{1F48B}][\u{200D}\u{FE0F}]{0,2})|[\u{2764}\u{1F466}-\u{1F469}\u{1F48B}]|(?:[\u{2764}\u{1F466}-\u{1F469}\u{1F48B}]\u{FE0F}?)/u;
@@ -24,6 +28,6 @@ var dingbats = /[\u{2700}-\u{27bf}]\u{FE0F}?/u;
 var emoticons = /[\u{1F000}-\u{1F6FF}\u{1F900}-\u{1F9FF}]\u{FE0F}?/u;
 var symbols = /[\u{2600}-\u{26ff}]\u{FE0F}?/u;
 
-export const regex = rainbow_flag.source + '|' + black_flag.source + '|' + keycaps.source + '|' + flags.source + '|' + gendered_roles_with_objects.source + '|' + unicode_10.source + '|' + families.source + '|' + gendered_gestures.source + '|' + modifier_sequence.source + '|' + other.source + '|' + dingbats.source + '|' + emoticons.source + '|' + symbols.source + '|' + digits.source;
+export const regex = rainbow_flag.source + '|' + pirate_flag.source + '|' + black_flag.source + '|' + keycaps.source + '|' + flags.source + '|' + gendered_roles_with_objects.source + '|' + unicode_10.source + '|' + families.source + '|' + gendered_gestures.source + '|' + modifier_sequence.source + '|' + other.source + '|' + dingbats.source + '|' + emoticons.source + '|' + symbols.source + '|' + digits.source;
 
 

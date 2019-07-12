@@ -13,3 +13,7 @@ Build JavaScript regex from src
 Run Javascript tests
 
 `npm run test`
+
+Output PHP in the console
+
+`php src/php/index.php`

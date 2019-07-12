@@ -2,19 +2,21 @@
 
 $regex = [];
 
-$regex['special'] = '(?:' .
-    # 1F3F3 FE0F 200D 1F308 ; rainbow flag
-    '\x{1F3F3}' . '\x{FE0F}?' . '\x{200D}?' . '\x{1F308}' . '|' .
+$regex['special'] = '' .
+    # 1F3F3 FE0F 200D 1F308 ; rainbow flag AND (or) pirate flag
+    '(?:' . '[\x{1F3F3}|\x{1F3F4}]' . '\x{FE0F}?' . '\x{200D}?' . '[\x{1F308}|\x{2620}]' . '\x{FE0F}?' . ')' . '|' .
     # 1F441 FE0F 200D 1F5E8 FE0F ; eye in speech bubble
-    '\x{1F441}' . '\x{FE0F}?' . '\x{200D}?' . '\x{1F5E8}' . '\x{FE0F}?' . # Black Flag
-    ')';
+    '(?:' . '\x{1F441}' . '\x{FE0F}?' . '\x{200D}?' . '\x{1F5E8}' . '\x{FE0F}?' . ')' . # Black Flag
+    '';
 
 $regex['flags'] = '(?:\x{1F3F4}[\x{E0060}-\x{E00FF}]{1,6})' . '|' . '[' . '\x{1F1E0}' . '-' . '\x{1F1FF}' . ']' . '{2}';
 
 $regex['keycaps'] = '[\x{0023}-\x{0039}]' . '\x{FE0F}?' . '\x{20e3}';
 
-$regex['gendered_roles_with_objects'] = '(?:' .
-    '[' . '\x{1F468}\x{1F469}' . ']' .
+$regex['peeps'] = '(?:[\x{1F466}-\x{1F469}]+' . '\x{FE0F}?' . '[\x{1F3FB}-\x{1F3FF}]?)';
+
+/*$regex['gendered_roles_with_objects'] = '(?:' .
+    '[' . '\x{1F466}-\x{1F469}' . ']+' .
     ')' .
     '\x{FE0F}?' .
     // skin tone modifiers
@@ -34,35 +36,42 @@ $regex['gendered_roles_with_objects'] = '(?:' .
     '\x{1F33E}-\x{1F3ED}' .
     ']' .
     '\x{FE0F}?' .
-    ')';
+    ')';*/
+
+$regex['gendered_roles_with_objects'] = '(?:[\x{1F468}|\x{1F469}]\x{FE0F}?[\x{1F3FB}-\x{1F3FF}]?\x{200D}?[\x{2695}|\x{2696}|\x{2708}|\x{1F4BB}|\x{1F4BC}|\x{1F527}|\x{1F52C}|\x{1F680}|\x{1F692}|\x{1F33E}|\x{1F3EB}|\x{1F3EC}|\x{1f373}|\x{1f393}|\x{1f3a4}|\x{1f3ed}|\x{1f3a8}]\x{FE0F}?)';
+
+//print $regex['gendered_roles_with_objects'];
 
 $regex['unicode_10'] = '[\x{1F468}-\x{1F469}\x{1F9D0}-\x{1F9DF}][\x{1F3FA}-\x{1F3FF}]?\x{200D}?[\x{2640}\x{2642}\x{2695}\x{2696}\x{2708}]?\x{FE0F}?';
 
+$regex['unicode_11'] = '(?:[\x{1F9B5}|\x{1F9B6}]+[\x{1F3FB}-\x{1F3FF}]+)';
+
+//the following replaces families
+$regex['couples_plus_kissing'] = '(?:[\x{1f468}|\x{1f469}]\x{200d}\x{2764}\x{fe0f}?\x{200d}[\x{1f48b}\x{200d}]*[\x{1f468}|\x{1f469}])';
+$regex['single_child_couples'] = '(?:[\x{1f468}|\x{1f469}]\x{200d}[\x{1f468}|\x{1f469}]\x{200d}[\x{1f466}|\x{1f467}])';
+$regex['two_child_couples'] = '(?:[\x{1f468}|\x{1f469}]\x{200d}[\x{1f468}|\x{1f469}]\x{200d}[\x{1f466}|\x{1f467}]\x{200d}[\x{1f466}|\x{1f467}])';
+$regex['single_child_person'] = '(?:[\x{1f468}|\x{1f469}]\x{200d}[\x{1f466}|\x{1f467}])';
+$regex['two_child_person'] = '(?:[\x{1f468}|\x{1f469}]\x{200d}[\x{1f466}|\x{1f467}]\x{200d}[\x{1f466}|\x{1f467}])';
+
+//to work correctly, 'family' components must be placed in the following order
+$regex['families'] = $regex['couples_plus_kissing'] . '|' . $regex['two_child_couples'] . '|' . $regex['two_child_person'] . '|' . $regex['single_child_couples'] . '|' . $regex['single_child_person'];
+
+//$regex['families'] = '(?:[\x{2764}\x{1F466}-\x{1F469}\x{1F48B}][\x{200D}\x{FE0F}]{0,2}){1,3}[\x{2764}\x{1F466}-\x{1F469}\x{1F48B}]|(?:[\x{2764}\x{1F466}-\x{1F469}\x{1F48B}]\x{FE0F}?){2,4}';
+
+//removed {1,3} (replaced with a |) and removed {2,4} based on comment in this issue: https://github.com/emojione/emojione/issues/497
+// -this allowed for matching multiple red hearts (without space in between)
+//the following families formula was replaced in lieu of separated "family" components
 /*$regex['families'] = '(?:' .
     '[\x{2764}\x{1F466}-\x{1F469}\x{1F48B}]' .
     '[\x{200D}\x{FE0F}]{0,2}' .
     ')' .
-    '{1,3}' .
-    '[\x{2764}\x{1F466}-\x{1F469}\x{1F48B}]' .
-    '|' .
-    '(?:' .
-    '[\x{2764}\x{1F466}-\x{1F469}\x{1F48B}]' .
-    '\x{FE0F}?' .
-    '){2,4}';*/
-
-//removed {1,3} (replaced with a |) and removed {2,4} based on comment in this issue: https://github.com/emojione/emojione/issues/497
-// -this allowed for matching multiple red hearts (without space in between)
-$regex['families'] = '(?:' .
-    '[\x{2764}\x{1F466}-\x{1F469}\x{1F48B}]' .
-    '[\x{200D}\x{FE0F}]{0,2}' .
-    ')' .
     '|' .
     '[\x{2764}\x{1F466}-\x{1F469}\x{1F48B}]' .
     '|' .
     '(?:' .
     '[\x{2764}\x{1F466}-\x{1F469}\x{1F48B}]' .
     '\x{FE0F}?' .
-    ')';
+    ')';*/
 
 $regex['gendered_gestures'] = '(?:' .
     '[\x{1f46e}\x{1F468}\x{1F469}\x{1f575}\x{1f471}-\x{1f487}\x{1F645}-\x{1F64E}\x{1F926}\x{1F937}]' . '|' .
@@ -150,23 +159,30 @@ $regex['dingbats'] = '[\x{2700}-\x{27bf}]' . '\x{FE0F}?';
 $regex['emoticons'] = '[\x{1F000}-\x{1F6FF}\x{1F900}-\x{1F9FF}]' . '\x{FE0F}?';
 $regex['symbols'] = '[\x{2600}-\x{26ff}]' . '\x{FE0F}?';
 
+$regex['superpeople'] = '(?:[\x{1F9B8}|\x{1F9B9}]+[\x{1F3FB}-\x{1F3FF}]?\x{200D}[\x{2640}-\x{2642}]?\x{FE0F}?)';
+$regex['hairstyles'] = '(?:[\x{1F468}|\x{1F469}]+[\x{1F3FB}-\x{1F3FF}]?\x{200D}[\x{1F9B0}-\x{1F9B3}]+\x{FE0F}?)';
+
 
 /*foreach ($regex AS $key => $val) {
     print '# ' . $key . "\n" . $val . "\n\n\n";
 }*/
 
 $regex = $regex['special'] . '|' .
+    $regex['families'] . '|' .
+    $regex['superpeople'] . '|' .
+    $regex['hairstyles'] . '|' .
     $regex['keycaps'] . '|' .
     $regex['flags'] . '|' .
     $regex['gendered_roles_with_objects'] . '|' .
     $regex['unicode_10'] . '|' .
-    $regex['families'] . '|' .
+    $regex['unicode_11'] . '|' .
     $regex['gendered_gestures'] . '|' .
     $regex['modifier_sequence'] . '|' .
     $regex['other'] . '|' .
     $regex['dingbats'] . '|' .
     $regex['emoticons'] . '|' .
     $regex['symbols'] . '|' .
+    $regex['peeps'] . '|' .
     $regex['digits'];
 
 print $regex;
